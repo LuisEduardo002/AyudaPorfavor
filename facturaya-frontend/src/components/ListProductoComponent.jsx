@@ -58,7 +58,7 @@ function removeProducto(id) {
                     <tr key={producto.id}>
                         <td>{producto.id}</td>
                         <td>{producto.codigo}</td>
-                        <td>{producto.precio_venta}</td>
+                        <td>{producto.precioVenta}</td>
                         <td>{producto.departamento}</td>
                         <td>{producto.categoria ? producto.categoria.descripcion : "Sin categoría"}</td>
                         <td>
