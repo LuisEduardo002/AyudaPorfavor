@@ -1,101 +1,90 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate , useParams} from 'react-router-dom'
-import { createProductos, getProductos, updateProductos } from '../services/ProductoServicio'
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { createProductos, getProductos, updateProductos } from '../services/ProductoServicio';
 
 export const ProductoCrearComponent = () => {
-    const [codigo, setCodigo] = useState("")
-    const [departamento, setDepartamento] = useState("")
-    const [precio_venta, setPrecio_venta] = useState("")
-    const [categoria, setCategoria] = useState("")
+    const [codigo, setCodigo] = useState("");
+    const [descripcion, setDescripcion] = useState("");
+    const [precioVenta, setPrecioVenta] = useState("");
+    const [categoria, setCategoria] = useState("");
 
-    const [errors, setErrors] =useState({
+    const [errors, setErrors] = useState({
         codigo: '',
-        departamento:'',
-        precio_venta:'',
-        categoria:''
-    })
+        descripcion: '',
+        precioVenta: '',
+        categoria: ''
+    });
 
-    const navigator = useNavigate();
-    const {id} = useParams();
+    const navigate = useNavigate();
+    const { id } = useParams();
 
-    useEffect(() =>{
-        if(id){
-            getProductos(id).then((response) =>{
+    useEffect(() => {
+        if (id) {
+            getProductos(id).then((response) => {
                 console.log(response.data);
                 setCodigo(response.data.codigo);
-                setDepartamento(response.data.departamento);
-                setPrecio_venta(response.data.precio_venta);
+                setDescripcion(response.data.descripcion);
+                setPrecioVenta(response.data.precioVenta);
                 setCategoria(response.data.categoria.descripcion);
-            }).catch(error =>{
+            }).catch(error => {
                 console.error('Error al obtener el producto', error);
-            })
+            });
         }
-    }, [id])
-    function saveOrUpdateProducto(e){
+    }, [id]);
+
+    function saveOrUpdateProducto(e) {
         e.preventDefault();
 
-        if(validateForm()){  
-            
-            const producto = {codigo, departamento, precio_venta,}
+        if (validateForm()) {
+            const producto = { codigo, descripcion, precioVenta, categoria };
             console.log(producto);
-    
-            if(id){
-                updateProductos(id, producto).then((response) =>{
-                console.log(response.data);       
-                navigator('/productos');
-            }).catch(error =>{
-                console.error('Error al actualizar el producto', error);
-            })
-            }
-            else{
-                createProductos(producto).then((response) =>{
+
+            if (id) {
+                updateProductos(id, producto).then((response) => {
                     console.log(response.data);
-                    navigator('/productos');
-                }).catch(error =>{
+                    navigate('/productos');
+                }).catch(error => {
+                    console.error('Error al actualizar el producto', error);
+                });
+            } else {
+                createProductos(producto).then((response) => {
+                    console.log(response.data);
+                    navigate('/productos');
+                }).catch(error => {
                     console.error('Error al crear el producto', error);
-                })
+                });
             }
-            }
-        
-
-
-
-    
-        // Aquí se podría llamar a la función que guarda el producto en la base de datos
+        }
     }
 
     function validateForm() {
-        console.log("alemnos entro a validar")
+        console.log("Validando el formulario");
         let isValid = true;
-        const errorsCopy = {...errors} 
+        const errorsCopy = { ...errors };
 
-        if(codigo.trim()) {
+        if (codigo.trim()) {
             errorsCopy.codigo = '';
-        }   
-        else{
+        } else {
             isValid = false;
-            errorsCopy.codigo = "El codigo es requerido";
+            errorsCopy.codigo = "El código es requerido";
         }
-        if(departamento.trim()) {
-            errorsCopy.departamento = '';
-        }
-        else{
+        if (descripcion.trim()) {
+            errorsCopy.descripcion = '';
+        } else {
             isValid = false;
-            errorsCopy.departamento = "El departamento es requerido";
+            errorsCopy.descripcion = "La descripción es requerida";
         }
-        if(String(precio_venta).trim()) {
-            errorsCopy.precio_venta = '';
-        }
-        else{
+        if (String(precioVenta).trim()) {
+            errorsCopy.precioVenta = '';
+        } else {
             isValid = false;
-            errorsCopy.precio_venta = "El precio de venta es requerido";
+            errorsCopy.precioVenta = "El precio de venta es requerido";
         }
-        if(categoria.trim()) {
+        if (categoria.trim()) {
             errorsCopy.categoria = '';
-        }
-        else{
+        } else {
             isValid = false;
-            errorsCopy.categoria = "La categoria es requerida";
+            errorsCopy.categoria = "La categoría es requerida";
         }
         setErrors(errorsCopy);
         console.log(isValid);
@@ -103,77 +92,73 @@ export const ProductoCrearComponent = () => {
     }
 
     function pageTitle() {
-        if(id){
-            return <h2 className='text-center'>Actualizar producto</h2>
-        }
-        else{
-            return <h2 className='text-center'>Añadir producto</h2>
+        if (id) {
+            return <h2 className='text-center'>Actualizar producto</h2>;
+        } else {
+            return <h2 className='text-center'>Añadir producto</h2>;
         }
     }
-  return (
-    <div className='container'>
-        <br></br>
-        <div className='row'>
-            <div className='card col-md-6 offset-md-3'>
-                {
-                    pageTitle()
-                }
-                <div className='card-body'>
-                    <form>
-                        <div className='form-group mb-2'>
-                            <label className='form-label'> Codigo Producot </label>
-                            <input type='text'
-                                placeholder='Ingresar codigo producto'
-                                value={codigo}
-                                className={`form-control ${errors.codigo ? 'is-invalid': ''}`}
-                                onChange={(e) =>setCodigo(e.target.value)}>
-                                
-                            </input>
-                            {errors.codigo && <div className='invalid-feedback'>{errors.codigo} </div>}
-                        </div>
 
-                        <div className='form-group mb-2'>
-                            <label className='form-label'> Departamento Producrto </label>
-                            <input type='text'
-                                placeholder='Ingresar Departamento producto'
-                                value={departamento}
-                                className={`form-control ${errors.departamento ? 'is-invalid': ''}`}
-                                onChange={(e) =>setDepartamento(e.target.value)}
-                                >
-                                
-                            </input>
-                            {errors.codigo && <div className='invalid-feedback'>{errors.departamento} </div>}
-                        </div>
+    return (
+        <div className='container'>
+            <br></br>
+            <div className='row'>
+                <div className='card col-md-6 offset-md-3'>
+                    {pageTitle()}
+                    <div className='card-body'>
+                        <form>
+                            <div className='form-group mb-2'>
+                                <label className='form-label'>Código Producto</label>
+                                <input
+                                    type='text'
+                                    placeholder='Ingresar código producto'
+                                    value={codigo}
+                                    className={`form-control ${errors.codigo ? 'is-invalid' : ''}`}
+                                    onChange={(e) => setCodigo(e.target.value)}
+                                />
+                                {errors.codigo && <div className='invalid-feedback'>{errors.codigo}</div>}
+                            </div>
 
-                        <div className='form-group mb-2'>
-                            <label className='form-label'> Precio Venta Producrto </label>
-                            <input type='text'
-                                placeholder='Ingresar Departamento producto'
-                                value={precio_venta}
-                                className={`form-control ${errors.precio_venta ? 'is-invalid': ''}`}
-                                onChange={(e) =>setPrecio_venta(e.target.value)}>
-                                
-                            </input>
-                            {errors.codigo && <div className='invalid-feedback'>{errors.precio_venta} </div>}
-                        </div>
+                            <div className='form-group mb-2'>
+                                <label className='form-label'>Descripción Producto</label>
+                                <input
+                                    type='text'
+                                    placeholder='Ingresar descripción producto'
+                                    value={descripcion}
+                                    className={`form-control ${errors.descripcion ? 'is-invalid' : ''}`}
+                                    onChange={(e) => setDescripcion(e.target.value)}
+                                />
+                                {errors.descripcion && <div className='invalid-feedback'>{errors.descripcion}</div>}
+                            </div>
 
-                        <div className='form-group mb-2'>
-                            <label className='form-label'> Categoria Producrto </label>
-                            <input type='text'
-                                placeholder='Ingresar categoruia producto'
-                                value={categoria}
-                                className={`form-control ${errors.categoria ? 'is-invalid': ''}`}
-                                onChange={(e) =>setCategoria(e.target.value)}>
-                                
-                            </input>
-                            {errors.codigo && <div className='invalid-feedback'>{errors.categoria} </div>}
-                        </div>
-                        <button className='btn btn-success' onClick={saveOrUpdateProducto}>Crear</button>
-                    </form>
+                            <div className='form-group mb-2'>
+                                <label className='form-label'>Precio Venta Producto</label>
+                                <input
+                                    type='text'
+                                    placeholder='Ingresar precio de venta producto'
+                                    value={precioVenta}
+                                    className={`form-control ${errors.precioVenta ? 'is-invalid' : ''}`}
+                                    onChange={(e) => setPrecioVenta(e.target.value)}
+                                />
+                                {errors.precioVenta && <div className='invalid-feedback'>{errors.precioVenta}</div>}
+                            </div>
+
+                            <div className='form-group mb-2'>
+                                <label className='form-label'>Categoría Producto</label>
+                                <input
+                                    type='text'
+                                    placeholder='Ingresar categoría producto'
+                                    value={categoria}
+                                    className={`form-control ${errors.categoria ? 'is-invalid' : ''}`}
+                                    onChange={(e) => setCategoria(e.target.value)}
+                                />
+                                {errors.categoria && <div className='invalid-feedback'>{errors.categoria}</div>}
+                            </div>
+                            <button className='btn btn-success' onClick={saveOrUpdateProducto}>Guardar</button>
+                        </form>
                     </div>
+                </div>
             </div>
-
         </div>
-    </div>
-  )
-}
+    );
+};
