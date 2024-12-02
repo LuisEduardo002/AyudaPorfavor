@@ -6,13 +6,16 @@ export const ProductoCrearComponent = () => {
     const [codigo, setCodigo] = useState("");
     const [descripcion, setDescripcion] = useState("");
     const [precioVenta, setPrecioVenta] = useState("");
-    const [categoria, setCategoria] = useState("");
-
+    const [medida, setMedida] = useState("");
+    const [categorias, setCategorias] = useState([]);
+    const [impuestos, setImpuestos] = useState([]);
     const [errors, setErrors] = useState({
         codigo: '',
         descripcion: '',
         precioVenta: '',
-        categoria: ''
+        categorias: '',
+        medida: '',
+        impuestos: ''
     });
 
     const navigate = useNavigate();
@@ -25,8 +28,10 @@ export const ProductoCrearComponent = () => {
                 setCodigo(response.data.codigo);
                 setDescripcion(response.data.descripcion);
                 setPrecioVenta(response.data.precioVenta);
-                setCategoria(response.data.categoria.descripcion);
-            }).catch(error => {
+                setCategorias(response.data.categorias.id);
+                setMedida(response.data.medida);
+                setImpuestos(response.data.impuestos.id);
+                    }).catch(error => {
                 console.error('Error al obtener el producto', error);
             });
         }
@@ -36,7 +41,7 @@ export const ProductoCrearComponent = () => {
         e.preventDefault();
 
         if (validateForm()) {
-            const producto = { codigo, descripcion, precioVenta, categoria };
+            const producto = { codigo, descripcion, precioVenta, categorias, medida, impuestos };
             console.log(producto);
 
             if (id) {
@@ -80,12 +85,7 @@ export const ProductoCrearComponent = () => {
             isValid = false;
             errorsCopy.precioVenta = "El precio de venta es requerido";
         }
-        if (categoria.trim()) {
-            errorsCopy.categoria = '';
-        } else {
-            isValid = false;
-            errorsCopy.categoria = "La categoría es requerida";
-        }
+
         setErrors(errorsCopy);
         console.log(isValid);
         return isValid;
@@ -142,17 +142,28 @@ export const ProductoCrearComponent = () => {
                                 />
                                 {errors.precioVenta && <div className='invalid-feedback'>{errors.precioVenta}</div>}
                             </div>
+                            <div className='form-group mb-2'>
+                                <label className='form-label'>Medida Producto</label>
+                                <input
+                                    type='text'
+                                    placeholder='Ingresar precio de venta producto'
+                                    value={medida}
+                                    className={`form-control ${errors.medida ? 'is-invalid' : ''}`}
+                                    onChange={(e) => setMedida(e.target.value)}
+                                />
+                                {errors.medida && <div className='invalid-feedback'>{errors.medida}</div>}
+                            </div>
 
                             <div className='form-group mb-2'>
                                 <label className='form-label'>Categoría Producto</label>
                                 <input
                                     type='text'
                                     placeholder='Ingresar categoría producto'
-                                    value={categoria}
-                                    className={`form-control ${errors.categoria ? 'is-invalid' : ''}`}
-                                    onChange={(e) => setCategoria(e.target.value)}
+                                    value={categorias}
+                                    className={`form-control ${errors.categorias ? 'is-invalid' : ''}`}
+                                    onChange={(e) => setCategorias(e.target.value)}
                                 />
-                                {errors.categoria && <div className='invalid-feedback'>{errors.categoria}</div>}
+                                {errors.categorias && <div className='invalid-feedback'>{errors.categorias}</div>}
                             </div>
                             <button className='btn btn-success' onClick={saveOrUpdateProducto}>Guardar</button>
                         </form>

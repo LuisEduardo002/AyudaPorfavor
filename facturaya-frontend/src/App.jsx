@@ -13,6 +13,7 @@ import { ListClienteComponent } from './components/ListClienteComponent'
 import { ClienteCrearComponent } from './components/ClienteComponent'
 import {  NavbarComponent } from './layouts/NavbarComponent'
 
+
 function App() {
 
   return (
@@ -37,6 +38,7 @@ function App() {
 
 
       <Route path='/edit-producto/:id' element = {<ProductoCrearComponent></ProductoCrearComponent>}></Route>
+
     </Route>
 
     </Routes>

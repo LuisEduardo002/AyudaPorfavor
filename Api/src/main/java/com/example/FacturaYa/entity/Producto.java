@@ -31,14 +31,14 @@ public class Producto {
     @Column(nullable = false)
     private BigDecimal precioVenta;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_impuesto", referencedColumnName = "id")
     private Impuesto impuesto;
 
     @Column(nullable = false, length = 50)
     private String medida;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_categoria", referencedColumnName = "id")
     private Categoria categoria;
 }

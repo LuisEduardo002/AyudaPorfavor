@@ -67,13 +67,13 @@ export const ListClienteComponent = () => {
     <tbody>
         {cliente.map((cliente) => (
 
-            <tr key={cliente.documento}>
-                <td>{cliente.id_numero_documento}</td>
+            <tr key={cliente.numero_documento}>
+                <td>{cliente.numero_documento}</td>
                 <td>{cliente.nombre}</td>
                 <td>{cliente.direccion}</td>
                 <td>{cliente.telefono}</td>
                 <td>{cliente.email}</td>
-                <td>{cliente.cuidad}</td>
+                <td>{cliente.ciudad}</td>
                 <td>{cliente.departamento}</td>
 
                 <td>

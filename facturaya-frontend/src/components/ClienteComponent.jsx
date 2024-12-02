@@ -3,21 +3,21 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { createcliente, getcliente, updatecliente } from '../services/ClienteServicio';
 
 export const ClienteCrearComponent = () => {
-    const [documento, setDocumento] = useState("")
+    const [numero_documento, setNumero_documento] = useState("")
     const [nombre, setNombre] = useState('');
     const [direccion, setDireccion] = useState('');
     const [telefono, setTelefono] = useState('');
     const [email, setEmail] = useState('');
-    const [cuidad, setCuidad] = useState('');
+    const [ciudad, setCiudad] = useState('');
     const [departamento, setDepartamento] = useState('');
 
     const [errors, setErrors] = useState({
-        documento:"",
+        numero_documento:"",
                 nombre: '',
         direccion: '',
         telefono: '',
         email: '',
-        cuidad: '',
+        ciudad: '',
         departamento: ''
     });
 
@@ -30,12 +30,12 @@ export const ClienteCrearComponent = () => {
             getcliente(id).then((response) => {
                 console.log('hola')
                 console.log(response.data);
-                setDocumento(response.data.numero_documento);
+                setNumero_documento(response.data.numero_documento);
                 setNombre(response.data.nombre);
                 setDireccion(response.data.direccion);
                 setTelefono(response.data.telefono);
                 setEmail(response.data.email);
-                setCuidad(response.data.cuidad);
+                setCiudad(response.data.ciudad);
                 setDepartamento(response.data.departamento);
             }).catch(error => {
                 console.error('Error al obtener el cliente', error);
@@ -48,7 +48,7 @@ export const ClienteCrearComponent = () => {
         console.log('leepepe')
         console.log(id);
         if (validateForm()) {
-            const cliente = {documento, nombre, direccion, telefono, email, cuidad, departamento };
+            const cliente = {numero_documento, nombre, direccion, telefono, email, ciudad, departamento };
             console.log(cliente);
     
             if (id) {
@@ -101,11 +101,11 @@ export const ClienteCrearComponent = () => {
             errorsCopy.email = 'El email es requerido';
         }
 
-        if (cuidad.trim()) {
-            errorsCopy.cuidad = '';
+        if (ciudad.trim()) {
+            errorsCopy.ciudad = '';
         } else {
             isValid = false;
-            errorsCopy.cuidad = 'La ciudad es requerida';
+            errorsCopy.ciudad = 'La ciudad es requerida';
         }
 
         if (departamento.trim()) {
@@ -141,11 +141,11 @@ export const ClienteCrearComponent = () => {
                                 <input
                                     type="text"
                                     placeholder="Ingrese el nombre"
-                                    value={documento}
-                                    className={`form-control ${errors.documento ? 'is-invalid' : ''}`}
-                                    onChange={(e) => setDocumento(e.target.value)}
+                                    value={numero_documento}
+                                    className={`form-control ${errors.numero_documento ? 'is-invalid' : ''}`}
+                                    onChange={(e) => setNumero_documento(e.target.value)}
                                 />
-                                {errors.documento && <div className="invalid-feedback">{errors.documento}</div>}
+                                {errors.numero_documento && <div className="invalid-feedback">{errors.numero_documento}</div>}
                             </div>
                             <div className="form-group mb-2">
                                 <label className="form-label">Nombre</label>
@@ -196,11 +196,11 @@ export const ClienteCrearComponent = () => {
                                 <input
                                     type="text"
                                     placeholder="Ingrese la ciudad"
-                                    value={cuidad}
-                                    className={`form-control ${errors.cuidad ? 'is-invalid' : ''}`}
-                                    onChange={(e) => setCuidad(e.target.value)}
+                                    value={ciudad}
+                                    className={`form-control ${errors.ciudad ? 'is-invalid' : ''}`}
+                                    onChange={(e) => setCiudad(e.target.value)}
                                 />
-                                {errors.cuidad && <div className="invalid-feedback">{errors.cuidad}</div>}
+                                {errors.ciudad && <div className="invalid-feedback">{errors.ciudad}</div>}
                             </div>
                             <div className="form-group mb-2">
                                 <label className="form-label">Departamento</label>

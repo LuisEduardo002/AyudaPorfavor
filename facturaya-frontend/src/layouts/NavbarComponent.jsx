@@ -25,6 +25,9 @@ export const NavbarComponent = () => {
           <Nav.Link as={Link} to="/productos" className="text-dark">
             <i className="bi bi-box-seam"></i> Productos
           </Nav.Link>
+          <Nav.Link as={Link} to="/tienda" className="text-dark">
+            <i className="bi bi-box-seam"></i> tienda
+          </Nav.Link>
         </Nav>
       </div>
 
