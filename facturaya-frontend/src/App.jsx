@@ -14,6 +14,7 @@ import { ClienteCrearComponent } from './components/ClienteComponent'
 import {  NavbarComponent } from './layouts/NavbarComponent'
 import Home from './components/Home';
 import ProductDetails from './components/ProductDetails';
+import Cart from './components/Cart';
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
 
     <Route path='/product/:id' element={<ProductDetails></ProductDetails>}></Route>
 
+    <Route path='/carrito' element={<Cart></Cart>}></Route>
 
     </Route>
 
