@@ -12,6 +12,8 @@ import { Impuesto } from './components/Impuesto'
 import { ListClienteComponent } from './components/ListClienteComponent'
 import { ClienteCrearComponent } from './components/ClienteComponent'
 import {  NavbarComponent } from './layouts/NavbarComponent'
+import Home from './components/Home';
+import ProductDetails from './components/ProductDetails';
 
 
 function App() {
@@ -38,6 +40,11 @@ function App() {
 
 
       <Route path='/edit-producto/:id' element = {<ProductoCrearComponent></ProductoCrearComponent>}></Route>
+
+     <Route path='/tienda' element={<Home></Home>}></Route>
+
+    <Route path='/product/:id' element={<ProductDetails></ProductDetails>}></Route>
+
 
     </Route>
 

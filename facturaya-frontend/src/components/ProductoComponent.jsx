@@ -153,6 +153,17 @@ export const ProductoCrearComponent = () => {
                                 />
                                 {errors.medida && <div className='invalid-feedback'>{errors.medida}</div>}
                             </div>
+                            <div className='form-group mb-2'>
+                                <label className='form-label'> Impuesto</label>
+                                <input
+                                    type='text'
+                                    placeholder='Ingresar precio de venta producto'
+                                    value={impuestos}
+                                    className={`form-control ${errors.impuestos ? 'is-invalid' : ''}`}
+                                    onChange={(e) => setImpuestos(e.target.value)}
+                                />
+                                {errors.impuestos && <div className='invalid-feedback'>{errors.impuestos}</div>}
+                            </div>
 
                             <div className='form-group mb-2'>
                                 <label className='form-label'>Categoría Producto</label>
