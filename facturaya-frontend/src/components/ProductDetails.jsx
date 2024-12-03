@@ -20,8 +20,17 @@ function ProductDetails() {
     <div>
       <h1>{product.nombre}</h1>
       <p>Descripción: {product.descripcion}</p>
-      <p>Precio: ${product.precio}</p>
-      <button onClick={() => console.log('Agregar al carrito')}>Agregar al Carrito</button>
+      <p>Precio: ${product.precioVenta}</p>
+      {product.impuesto && (
+        <p>
+          Impuesto: {product.impuesto.nombre} ({product.impuesto.porcentaje}%)
+        </p>
+      )}
+      {product.medida && <p>Medida: {product.medida}</p>}
+      {product.categoria && <p>Categoría: {product.categoria.descripcion}</p>}
+      <button onClick={() => console.log('Agregar al carrito')}>
+        Agregar al Carrito
+      </button>
     </div>
   );
 }
